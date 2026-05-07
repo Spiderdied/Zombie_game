@@ -93,56 +93,56 @@ function playSound(type){
 
 // ── EXACT 50 QUESTIONS ────────────────────────────────────────
 const QUESTIONS=[
-  {s:"We ___ from his remarks that he was happy about the project.",w:"inferred",c:["assumed","answered","hear","misunderstood"],a:0},
-  {s:"He was fined 100 pounds by the ___ and given a strong warning.",w:"magistrate",c:["emperor","judge","lawyer","policeman"],a:1},
-  {s:"Without Ahmad's constant ___ of mind, we never would have come through.",w:"presence",c:["composure","gifts","ideas","nervousness"],a:0},
-  {s:"Three victories in three events! What a ___ day this is!",w:"red-letter",c:["colorful","forgettable","memorable","terrible"],a:2},
-  {s:"I don't think I'll ___ that conference in Cairo.",w:"make",c:["attend","construct","decide","do"],a:0},
-  {s:"The veterans, ___, usually play well under pressure.",w:"on the other hand",c:["consequently","conversely","in addition","regularly"],a:1},
-  {s:"This serum is supposed to make you ___ from further infection.",w:"immune",c:["contagious","not susceptible to","open","sick"],a:1},
-  {s:"The new regulation disallows ___ of personal tax information.",w:"disclosure",c:["announcement","closing","opening","public revelation"],a:3},
-  {s:"The artist was always ready with a bon mot, making him an ___ at parties.",w:"asset",c:["bad joke","nice tale","clever remark","boring joke"],a:2},
-  {s:"The reference was interesting but too ___ for anyone to appreciate.",w:"obscure",c:["dismal","delightful","helpful","hidden"],a:3},
-  {s:"How many people do you ___ on inviting to the grand opening?",w:"figure",c:["add","desire","estimate","keep away"],a:2},
-  {s:"When Elizabeth was little, she ___ her younger sister quite a bit.",w:"picked on",c:["cared for","picked up","selected","teased"],a:3},
-  {s:"It ___ yesterday that you might want to accompany us.",w:"crossed my mind",c:["escaped my attention","made me angry","memorized","occurred to me"],a:3},
-  {s:"The director was ___ about the new performer's acting ability.",w:"dubious",c:["anxious","doubtful","happy","nervous"],a:1},
-  {s:"Just how ___ were her observations during the meeting?",w:"pertinent",c:["filled with lies","honest","relevant","well received"],a:2},
-  {s:"It was no surprise when we were told that our grandfather had ___ away.",w:"passed",c:["died","gone on a trip","slipped","survived"],a:0},
-  {s:"Sue was ___ at her brother's unexpected news.",w:"astounded",c:["amazed","bothered","confused","perplexed"],a:0},
-  {s:"The Joneses wondered how they were going to make ends ___.",w:"meet",c:["do their fair share","produce two effects","succeed in paying their own way","tie the laces"],a:2},
-  {s:"We were ___ to learn of his interest in our case.",w:"gratified",c:["good-natured","overwhelmed","sorry and displeased","thankful and pleased"],a:3},
-  {s:"The ___ music roused everyone to a peak of excitement.",w:"martial",c:["dirge-like","pertaining to marriage","seasoned","warlike"],a:3},
-  {s:"The scientist made a ___ discovery that changed the field forever.",w:"seminal",c:["groundbreaking","minor","recent","strange"],a:0},
-  {s:"She tried to ___ the misunderstanding by explaining her actions clearly.",w:"rectify",c:["worsen","correct","ignore","forget"],a:1},
-  {s:"The politician's speech was full of ___, saying nothing of real substance.",w:"rhetoric",c:["facts","empty persuasive language","humor","threats"],a:1},
-  {s:"He was known for his ___ wit, always ready with a biting comment.",w:"acerbic",c:["gentle","biting","slow","warm"],a:1},
-  {s:"The new policy will ___ the old regulations from the previous decade.",w:"supersede",c:["support","copy","replace","review"],a:2},
-  {s:"Her ___ manner put everyone at ease during the tense meeting.",w:"affable",c:["rude","friendly","serious","indifferent"],a:1},
-  {s:"The ancient building had fallen into ___ after years of neglect.",w:"disrepair",c:["fame","glory","ruin","common use"],a:2},
-  {s:"The general made a ___ decision to retreat before suffering more losses.",w:"prudent",c:["reckless","wise","slow","brave"],a:1},
-  {s:"Her ___ remarks offended many people at the formal dinner.",w:"flippant",c:["thoughtful","kind","disrespectful","long"],a:2},
-  {s:"The new medicine proved to be an effective ___ for the rare disease.",w:"remedy",c:["cause","cure","diagnosis","symptom"],a:1},
-  {s:"He gave a very ___ account of the accident that he had witnessed.",w:"lucid",c:["confusing","brief","clear","dramatic"],a:2},
-  {s:"The explorer showed great ___ in the face of extreme danger.",w:"fortitude",c:["cowardice","courage","laziness","luck"],a:1},
-  {s:"The lawyer tried to ___ the jury with clever but misleading arguments.",w:"bamboozle",c:["assist","confuse","convince legally","frighten"],a:1},
-  {s:"His ___ attitude towards work made him very popular with his boss.",w:"diligent",c:["careless","hardworking","lazy","noisy"],a:1},
-  {s:"The committee decided to ___ the unpopular law after public protests.",w:"repeal",c:["enforce","cancel","extend","support"],a:1},
-  {s:"She had an ___ memory and could recall details from years ago.",w:"impeccable",c:["average","perfect","poor","strange"],a:1},
-  {s:"The new software was designed to ___ errors in complex calculations.",w:"mitigate",c:["increase","reduce","ignore","celebrate"],a:1},
-  {s:"The professor was known for his ability to ___ complex ideas simply.",w:"elucidate",c:["complicate","explain clearly","forget","repeat"],a:1},
-  {s:"Despite his ___ appearance, the old man was actually quite strong.",w:"frail",c:["healthy","muscular","weak-looking","tall"],a:2},
-  {s:"The two countries signed a ___ agreement to share resources.",w:"bilateral",c:["one-sided","two-sided","three-party","secret"],a:1},
-  {s:"Her ___ generosity meant she was always giving to those in need.",w:"munificent",c:["extreme","lavish","occasional","reluctant"],a:1},
-  {s:"The manager tried to ___ the conflict between the two departments.",w:"mediate",c:["cause","ignore","resolve","worsen"],a:2},
-  {s:"The soldiers showed great ___ in defending their position.",w:"valor",c:["bravery","cowardice","confusion","greed"],a:0},
-  {s:"His ___ remarks at the funeral were completely out of place.",w:"facetious",c:["heartfelt","joking inappropriately","long","sincere"],a:1},
-  {s:"The novel offered a ___ critique of modern society's obsession with wealth.",w:"scathing",c:["gentle","harsh","mild","positive"],a:1},
-  {s:"After much deliberation, the committee reached a ___ decision.",w:"unanimous",c:["biased","divided","majority","fully agreed"],a:3},
-  {s:"The child showed a ___ talent for mathematics at a very young age.",w:"prodigious",c:["average","extraordinary","limited","normal"],a:1},
-  {s:"The documentary tried to ___ the myths surrounding the ancient civilization.",w:"debunk",c:["celebrate","expose as false","promote","study"],a:1},
-  {s:"She remained ___ despite the overwhelming evidence presented against her.",w:"adamant",c:["flexible","firmly determined","persuaded","uncertain"],a:1},
-  {s:"The explorer's ___ journey through the jungle took three months to complete.",w:"arduous",c:["brief","easy","long and difficult","scenic"],a:2}
+  {s:"We inferred from his remarks that he was happy about the project.", w:"inferred", c:["assumed","answered","hear","misunderstood"], a:0},
+  {s:"He was fined 100 pounds by the magistrate and given a strong warning.", w:"magistrate", c:["emperor","judge","lawyer","policeman"], a:1},
+  {s:"Without Ahmad’s constant presence of mind, we never would have come through as we did.", w:"presence of mind", c:["composure","gifts","ideas","nervousness"], a:0},
+  {s:"Three victories in three events! What a red-letter day this is!", w:"red-letter", c:["colorful","forgettable","memorable","terrible"], a:2},
+  {s:"I don’t think I’ll make that conference in Cairo.", w:"make", c:["attend","construct","decide","do"], a:0},
+  {s:"The veterans, on the other hand, usually play well under pressure.", w:"on the other hand", c:["consequently","conversely","in addition","regularly"], a:1},
+  {s:"This serum is supposed to make you immune from further infection.", w:"immune", c:["contagious","not susceptible to","open","sick"], a:1},
+  {s:"The new government regulation disallows disclosure of personal tax information.", w:"disclosure", c:["announcement","closing","opening","public revelation"], a:3},
+  {s:"The artist was always ready with a bon mot, making him an asset at small cocktail parties.", w:"bon mot", c:["bad joke","nice tale","clever remark","boring joke"], a:2},
+  {s:"The reference she made to her friend, the poet, was interesting but too obscure for anyone to appreciate.", w:"obscure", c:["dismal","delightful","helpful","hidden"], a:3},
+  {s:"How many people do you figure on inviting to the grand opening?", w:"figure on", c:["add","desire","estimate","keep away"], a:2},
+  {s:"When Elizabeth was little, she picked on her younger sister quite a bit.", w:"picked on", c:["cared for","picked up","selected","teased"], a:3},
+  {s:"It crossed my mind yesterday that you might want to accompany us.", w:"crossed my mind", c:["escaped my attention","made me angry","memorized","occurred to me"], a:3},
+  {s:"The director was dubious about the new performer’s acting ability.", w:"dubious", c:["anxious","doubtful","happy","nervous"], a:1},
+  {s:"Just how pertinent were her observations?", w:"pertinent", c:["filled with lies","honest","relevant","well received"], a:2},
+  {s:"It was no surprise when we were told that our grandfather had passed away.", w:"passed away", c:["died","gone on a trip","slipped","survived"], a:0},
+  {s:"Sue was astounded at her brother’s news.", w:"astounded", c:["amazed","bothered","confused","perplexed"], a:0},
+  {s:"The Joneses wondered how they were going to make ends meet.", w:"make ends meet", c:["do their fair share","produce two effects","succeed in paying their own way","tie the laces"], a:2},
+  {s:"We were gratified to learn of his interest in our case.", w:"gratified", c:["good-natured","overwhelmed","sorry and displeased","thankful and pleased"], a:3},
+  {s:"The martial music roused everyone to a peak of excitement.", w:"martial", c:["dirge-like","pertaining to marriage","seasoned","warlike"], a:3},
+  {s:"Were their vows made publicly or privately?", w:"vows", c:["emotions","opening remarks","promises","thoughts"], a:2},
+  {s:"The salesman stood up for his product when challenged.", w:"stood up for", c:["defended","fought","sold","spoke of"], a:0},
+  {s:"The affection they felt for each other was obvious to everyone.", w:"affection", c:["adherence","fondness","hatred","sickness"], a:1},
+  {s:"The reporter described the scene as one of total chaos.", w:"chaos", c:["complete disorder","complete order","intensity","wonder"], a:0},
+  {s:"I understand that Eliot can play the piano by ear; is that true?", w:"by ear", c:["by hitting the keys with his ears","timidly","with his eyes closed","without dependence on written music"], a:3},
+  {s:"The rule states that if a boxer is knocked down, he must stay down for a mandatory eight seconds.", w:"mandatory", c:["crucial","delayed","long","obligatory"], a:3},
+  {s:"He surprised everyone by showing up in his mother’s dress.", w:"showing up", c:["administering","arriving","standing out","watching a film"], a:1},
+  {s:"Their conversation was stilted but friendly.", w:"stilted", c:["drawn out","exhausting","secretive","stiffly formal"], a:3},
+  {s:"Nancy thwarted her sister’s every effort to sell the old house.", w:"thwarted", c:["assisted","blocked","hoped","reported"], a:1},
+  {s:"She was naturally apprehensive at the prospect of meeting her future mother-in-law.", w:"apprehensive", c:["fearful","quiet","resigned","strong"], a:0},
+  {s:"They were loath to say so, but they didn’t want Pip invited to the party.", w:"loath", c:["hateful","ready","unprepared","unwilling"], a:3},
+  {s:"After a trial lasting five weeks, the defendant was exonerated of all charges.", w:"exonerated", c:["convicted","freed","imprisoned","exonerated"], a:1},
+  {s:"If you send me a memorandum, I’ll surely remember to attend the meeting.", w:"memorandum", c:["calling card","invitation","itinerary","short note"], a:3},
+  {s:"The team’s morale was at its lowest point of the season.", w:"morale", c:["ability to read","scores","spirit","talent"], a:2},
+  {s:"By her clothes one could see that she was quite prosperous.", w:"prosperous", c:["calm","peaceful","poor","well-to-do"], a:3},
+  {s:"Be careful not to mention the matter to him; he’s still a bit touchy.", w:"touchy", c:["handy","ill-mannered","manual","sensitive"], a:3},
+  {s:"It seemed as though every third sentence he spoke was a cliché.", w:"cliché", c:["nice phrase","paragraph","pun","trite phrase"], a:3},
+  {s:"The tour guide who led us through the museum seemed experienced.", w:"experienced", c:["like a newcomer","old","thoroughly versed","young"], a:2},
+  {s:"The hotel he recommended proved to be too expensive.", w:"proved to be", c:["demanded proof","looked","turned out to be","wasn’t"], a:2},
+  {s:"My brother is almost six and a half feet tall.", w:"feet", c:["an acre","three yards","two meters","120 centimeters"], a:2},
+  {s:"Santiago dozed off and couldn’t be roused for hours.", w:"dozed off", c:["drove","napped","left","spaced out"], a:1},
+  {s:"He reciprocated by sending the general a silver tray.", w:"reciprocated", c:["gave","opened","received","responded"], a:3},
+  {s:"He was deft at handling complaints as he was at tennis.", w:"deft", c:["angry","crude","intelligent","skillful"], a:3},
+  {s:"The intricate mechanisms of government seemed awesome to the visitors.", w:"intricate", c:["complex","interesting","new","subtle"], a:0},
+  {s:"The irate crowd edged closer to the police barricades.", w:"irate", c:["angry","calm","gawking","large"], a:0},
+  {s:"He rescinded his offer to take pictures at the graduation party.", w:"rescinded", c:["fired up","reinforced","renewed","withdrew"], a:3},
+  {s:"My brother is ill.", w:"ill", c:["sad","sorry","well","unwell"], a:3},
+  {s:"The film lasted three hours.", w:"lasted", c:["ended","finished","went","went on"], a:3},
+  {s:"My uncle’s son stayed with us for a week.", w:"uncle’s son", c:["my aunt","my cousin","my nephew","my niece"], a:1},
+  {s:"We sometimes visit the people that live next-door.", w:"next-door", c:["our enemies","our friends","our neighbors","our relatives"], a:2}
 ];
 
 // ── MAP ───────────────────────────────────────────────────────
@@ -1191,7 +1191,7 @@ function renderQuestion(){
     ctx.fillStyle='rgba(20,10,0,0.7)';ctx.fillRect(W*0.05,H*0.14,W*0.9,H*0.24);
     ctx.strokeStyle='#441100';ctx.lineWidth=1;ctx.strokeRect(W*0.05,H*0.14,W*0.9,H*0.24);
 
-    // Render sentence with underlined target word
+    // Render sentence with custom robust underline system
     renderSentenceWithUnderline(currentQuestion.s,currentQuestion.w,W*0.5,H*0.18,W*0.84,Math.floor(H*0.026));
 
     // "means:" label
@@ -1238,53 +1238,99 @@ function renderQuestion(){
   ctx.textAlign='left';ctx.shadowBlur=0;
 }
 
-function renderSentenceWithUnderline(sentence,word,centerX,startY,maxW,fontSize){
-  // Build parts: before word, the word itself, after word
-  // sentence uses ___ for blank, word is the answer
-  // We display sentence with ___ replaced by styled underlined word
-  ctx.font=`${fontSize}px Courier New`;
-  ctx.textAlign='center';
-  const fullText=sentence.replace('___',word);
-  // Word-wrap
-  const words2=fullText.split(' ');
-  let lines=[],line='';
-  for(const w of words2){
-    const test=line+w+' ';
-    if(ctx.measureText(test).width>maxW&&line!==''){lines.push(line.trim());line=w+' ';}else line=test;
+// Custom text rendering engine to handle underlining on specific words with multi-line wrapping
+function renderSentenceWithUnderline(sentence, targetWord, centerX, startY, maxW, fontSize) {
+  ctx.font = `${fontSize}px Courier New`;
+  ctx.textAlign = 'left';
+
+  const targetIdx = sentence.indexOf(targetWord);
+  if (targetIdx === -1) {
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#dddddd';
+    ctx.fillText(sentence, centerX, startY);
+    return;
   }
-  if(line.trim())lines.push(line.trim());
 
-  const lineH=fontSize*1.55;
-  lines.forEach((ln,li)=>{
-    const y=startY+li*lineH;
-    // Check if this line contains the target word
-    if(ln.includes(word)){
-      // Find word position in line to underline it
-      const before=ln.substring(0,ln.indexOf(word));
-      const after=ln.substring(ln.indexOf(word)+word.length);
-      const totalW=ctx.measureText(ln).width;
-      const startXLine=centerX-totalW*0.5;
-      const beforeW=ctx.measureText(before).width;
-      const wordW=ctx.measureText(word).width;
+  const before = sentence.substring(0, targetIdx);
+  const target = targetWord;
+  const after = sentence.substring(targetIdx + targetWord.length);
 
-      // Draw before
-      ctx.fillStyle='#dddddd';ctx.textAlign='left';
-      ctx.fillText(before,startXLine,y);
-      // Draw word (highlighted)
-      ctx.fillStyle='#ffdd44';
-      ctx.fillText(word,startXLine+beforeW,y);
-      // Underline
-      ctx.strokeStyle='#ffdd44';ctx.lineWidth=2;
-      ctx.beginPath();ctx.moveTo(startXLine+beforeW,y+3);ctx.lineTo(startXLine+beforeW+wordW,y+3);ctx.stroke();
-      // Draw after
-      ctx.fillStyle='#dddddd';
-      ctx.fillText(after,startXLine+beforeW+wordW,y);
-      ctx.textAlign='center';
-    }else{
-      ctx.fillStyle='#dddddd';ctx.textAlign='center';
-      ctx.fillText(ln,centerX,y);
+  function tokenize(text, isU) {
+    return text.split(' ').map((w, i, a) => ({
+      t: w + (i < a.length - 1 ? ' ' : ''),
+      u: isU
+    }));
+  }
+
+  let tokens = [
+    ...tokenize(before, false),
+    ...tokenize(target, true),
+    ...tokenize(after, false)
+  ].filter(tok => tok.t.length > 0);
+
+  let lines = [];
+  let curLine = [];
+  let curW = 0;
+
+  tokens.forEach(tok => {
+    let tw = ctx.measureText(tok.t).width;
+    // Word wrap based on maximum width
+    if (curW + ctx.measureText(tok.t.trim()).width > maxW && curLine.length > 0) {
+      lines.push(curLine);
+      curLine = [];
+      curW = 0;
     }
+    curLine.push(tok);
+    curW += tw;
   });
+  if (curLine.length > 0) lines.push(curLine);
+
+  const lineH = fontSize * 1.55;
+  lines.forEach((line, li) => {
+    const y = startY + li * lineH;
+    let lineW = 0;
+    line.forEach(tok => lineW += ctx.measureText(tok.t).width);
+    
+    // Adjust centering to ignore trailing spaces on a line
+    let lastTok = line[line.length - 1];
+    if (lastTok.t.endsWith(' ')) {
+      lineW -= ctx.measureText(' ').width;
+    }
+
+    let sx = centerX - lineW * 0.5;
+
+    line.forEach((tok, i) => {
+      let textToDraw = tok.t;
+      if (i === line.length - 1 && textToDraw.endsWith(' ')) {
+        textToDraw = textToDraw.slice(0, -1);
+      }
+      let drawW = ctx.measureText(textToDraw).width;
+      let fullW = ctx.measureText(tok.t).width;
+
+      ctx.fillStyle = tok.u ? '#ffdd44' : '#dddddd';
+      ctx.fillText(textToDraw, sx, y);
+
+      // Render Underline
+      if (tok.u) {
+        ctx.strokeStyle = '#ffdd44';
+        ctx.lineWidth = Math.max(2, fontSize * 0.1);
+        ctx.beginPath();
+        let underlineW = drawW;
+        
+        // Connect the underline continuously if the expression spans multiple words
+        if (i < line.length - 1 && line[i+1].u && tok.t.endsWith(' ')) {
+          underlineW = fullW;
+        }
+        
+        const underlineY = y + fontSize * 0.2;
+        ctx.moveTo(sx, underlineY);
+        ctx.lineTo(sx + underlineW, underlineY);
+        ctx.stroke();
+      }
+      sx += fullW;
+    });
+  });
+  ctx.textAlign = 'left';
 }
 
 // ── MAIN MENU ────────────────────────────────────────────────
@@ -1599,4 +1645,4 @@ canvas.addEventListener('touchstart',()=>unlockAC(),{once:true,passive:true});
 requestAnimationFrame(loop);
 </script>
 </body>
-  </html>
+</html>
