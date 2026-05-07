@@ -23,7 +23,7 @@ window.addEventListener('resize',resize);
 
 const GS={MENU:0,GAME:1,QUESTION:2,PAUSED:3,GAMEOVER:4,SETTINGS:5,DEAD:6,WIN:7,LEVEL_UP:8};
 let gameState=GS.MENU;
-let prevGameState=GS.MENU; // For settings navigation
+let prevGameState=GS.MENU;
 
 let cfg={sensitivity:2.0,soundOn:true,ctrlOpacity:0.6,quality:1};
 
@@ -207,7 +207,7 @@ const LEVELS = [
   {id: 2, name: "STAGE 2: HORROR HOSPITAL", spawn: {x: 22.5, y: 2.5}},
   {id: 3, name: "STAGE 3: TOXIC LAB", spawn: {x: 2.5, y: 22.5}},
   {id: 4, name: "STAGE 4: MILITARY BASE", spawn: {x: 22.5, y: 22.5}},
-  {id: 5, name: "STAGE 5: THE FINAL RUN", spawn: {x: 20.5, y: 20.5}}
+  {id: 5, name: "STAGE 5: THE FINAL RUN", spawn: {x: 35.5, y: 35.5}} // نقلته למكان آمن فاضي
 ];
 
 const ZONE_WALL_COLOR=["#004488","#008822","#6600aa","#aa2200","#880000"];
@@ -855,7 +855,7 @@ function renderSprites(zbuf){
     const legAnim=Math.sin(Date.now()*0.008*(1+z.type))*0.4;
     const armAnim=Math.cos(Date.now()*0.008*(1+z.type))*0.3;
 
-    // Rim Lighting Logic (if player is looking near zombie)
+    // Rim Lighting Logic
     const isRimLit = Math.abs(angle) < 0.15 && !isDying;
     
     // Shadow
@@ -1510,7 +1510,7 @@ function renderMobileControls(){
 }
 
 function togglePause(){
-  if(gameState===GS.GAME) { gameState=GS.PAUSED; saveGameProgress(); } // Auto-save on pause
+  if(gameState===GS.GAME) { gameState=GS.PAUSED; saveGameProgress(); } 
   else if(gameState===GS.PAUSED)gameState=GS.GAME;
 }
 document.addEventListener('keydown',e=>{if(e.code==='Escape')togglePause();});
