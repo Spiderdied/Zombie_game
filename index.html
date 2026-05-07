@@ -218,6 +218,7 @@ const ZONE_FLOOR_COLOR=["#001133","#002200","#1a0033","#330000"];
 const ZONE_CEIL_COLOR=["#000011","#001100","#0a0011","#110000"];
 const ZONE_ACCENT=["#00ccff","#00ff44","#cc00ff","#ffaa00"];
 const ZONE_AMBIENT=["rgba(0,40,80,","rgba(0,60,20,","rgba(40,0,80,","rgba(80,20,0,"];
+const ZONE_FOG=[0.045,0.055,0.065,0.04]; // المليونيرة اللي كانت مفقودة
 
 // ── PLAYER ────────────────────────────────────────────────────
 const player={
@@ -489,7 +490,6 @@ function triggerQuestion(trigger){
 function answerQuestion(choice){
   if(!currentQuestion)return;
   
-  // التأكيد قبل الإجابة
   if(!confirm("Are you sure?")) return;
 
   if(choice===currentQuestion.a){
@@ -508,13 +508,20 @@ function answerQuestion(choice){
     
     if(questionTrigger==='gate'&&typeof interactTarget==='number'&&interactTarget>=0){
       gatesUnlocked[interactTarget]=true;
-      // Level progression Logic
+      
+      // الترقية للمستوى اللي بعده
       player.currentLevelIdx++;
-      gameState=GS.LEVEL_UP;
-      levelUpTimer=150;
-      playSound('level_up');
-      const cp=LEVELS[player.currentLevelIdx].spawn;
-      player.x=cp.x; player.y=cp.y; player.hp=player.maxHp;
+      
+      if(player.currentLevelIdx >= LEVELS.length) {
+         gameState = GS.WIN;
+         winTimer = 300;
+      } else {
+         gameState=GS.LEVEL_UP;
+         levelUpTimer=150;
+         playSound('level_up');
+         const cp=LEVELS[player.currentLevelIdx].spawn;
+         player.x=cp.x; player.y=cp.y; player.hp=player.maxHp;
+      }
       return;
     }
     gameState=GS.GAME;
