@@ -218,7 +218,7 @@ const ZONE_FLOOR_COLOR=["#001133","#002200","#1a0033","#330000"];
 const ZONE_CEIL_COLOR=["#000011","#001100","#0a0011","#110000"];
 const ZONE_ACCENT=["#00ccff","#00ff44","#cc00ff","#ffaa00"];
 const ZONE_AMBIENT=["rgba(0,40,80,","rgba(0,60,20,","rgba(40,0,80,","rgba(80,20,0,"];
-const ZONE_FOG=[0.045,0.055,0.065,0.04]; // المليونيرة اللي كانت مفقودة
+const ZONE_FOG=[0.045,0.055,0.065,0.04]; 
 
 // ── PLAYER ────────────────────────────────────────────────────
 const player={
@@ -386,10 +386,12 @@ function updateBtnPositions(){
   BTN.reload.x=W-195;BTN.reload.y=H-105;
   BTN.pause.x=W-42;BTN.pause.y=52;
   BTN.weapon.x=W-195;BTN.weapon.y=H-185;
+  BTN.interact.x=W-100;BTN.interact.y=H-240;
 }
 function checkBtnTouch(bx,by){
   if(gameState===GS.GAME||gameState===GS.PAUSED){
     if(d2(bx,by,BTN.fire.x,BTN.fire.y)<BTN.fire.r*BTN.fire.r){if(gameState===GS.GAME)doShoot();return true;}
+    if(interactTarget!==null && d2(bx,by,BTN.interact.x,BTN.interact.y)<BTN.interact.r*BTN.interact.r){if(gameState===GS.GAME)checkInteract();return true;}
     if(d2(bx,by,BTN.reload.x,BTN.reload.y)<BTN.reload.r*BTN.reload.r){if(gameState===GS.GAME)doReload();return true;}
     if(d2(bx,by,BTN.pause.x,BTN.pause.y)<BTN.pause.r*BTN.pause.r){togglePause();return true;}
     if(d2(bx,by,BTN.weapon.x,BTN.weapon.y)<BTN.weapon.r*BTN.weapon.r){if(gameState===GS.GAME){player.weapon=1-player.weapon;playSound('reload');}return true;}
@@ -964,8 +966,8 @@ function renderHUD(){
     ctx.fillStyle='rgba(0,0,0,0.9)';ctx.fillRect(W*0.5-165,H*0.5+58,330,38);
     ctx.strokeStyle='#00ff00';ctx.lineWidth=2;ctx.strokeRect(W*0.5-165,H*0.5+58,330,38);
     ctx.fillStyle='#00ff00';ctx.font=`bold ${fs2+2}px Courier New`;ctx.textAlign='center';
-    if(typeof interactTarget==='number')ctx.fillText('[E] ANSWER QUESTION → NEXT LEVEL!',W*0.5,H*0.5+83);
-    else ctx.fillText('[E]  OPEN CRATE',W*0.5,H*0.5+83);
+    if(typeof interactTarget==='number')ctx.fillText('[E / OPEN] ANSWER QUESTION!',W*0.5,H*0.5+83);
+    else ctx.fillText('[E / OPEN] OPEN CRATE',W*0.5,H*0.5+83);
     ctx.textAlign='left';
   }
 
@@ -1357,6 +1359,14 @@ function renderMobileControls(){
   ctx.fillStyle='rgba(50,50,50,0.8)';ctx.beginPath();ctx.arc(BTN.pause.x,BTN.pause.y,BTN.pause.r,0,TWO_PI);ctx.fill();
   ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.beginPath();ctx.arc(BTN.pause.x,BTN.pause.y,BTN.pause.r,0,TWO_PI);ctx.stroke();
   ctx.fillStyle='#fff';ctx.font=`bold 16px Courier New`;ctx.fillText('II',BTN.pause.x,BTN.pause.y+6);
+  
+  if(interactTarget!==null){
+    ctx.fillStyle='rgba(0,255,100,0.6)';ctx.beginPath();ctx.arc(BTN.interact.x,BTN.interact.y,BTN.interact.r,0,TWO_PI);ctx.fill();
+    ctx.strokeStyle='#00ff00';ctx.lineWidth=3;ctx.beginPath();ctx.arc(BTN.interact.x,BTN.interact.y,BTN.interact.r,0,TWO_PI);ctx.stroke();
+    ctx.fillStyle='#fff';ctx.font=`bold 16px Courier New`;ctx.textAlign='center';
+    ctx.fillText('OPEN',BTN.interact.x,BTN.interact.y+6);
+  }
+
   ctx.textAlign='left';
   ctx.restore();
 }
