@@ -207,7 +207,7 @@ const LEVELS = [
   {id: 2, name: "STAGE 2: HORROR HOSPITAL", spawn: {x: 22.5, y: 2.5}},
   {id: 3, name: "STAGE 3: TOXIC LAB", spawn: {x: 2.5, y: 22.5}},
   {id: 4, name: "STAGE 4: MILITARY BASE", spawn: {x: 22.5, y: 22.5}},
-  {id: 5, name: "STAGE 5: THE FINAL RUN", spawn: {x: 35.5, y: 35.5}} // نقلته למكان آمن فاضي
+  {id: 5, name: "STAGE 5: THE FINAL RUN", spawn: {x: 35.5, y: 35.5}}
 ];
 
 const ZONE_WALL_COLOR=["#004488","#008822","#6600aa","#aa2200","#880000"];
@@ -224,7 +224,7 @@ const player={
   revives:3,
   currentLevelIdx: 0,
   weapon:0,
-  weaponsUnlocked: 1, // 1: pistol, 2: shotgun, 3: rifle
+  weaponsUnlocked: 1, 
   ammo:[18,6,30],maxAmmo:[18,6,30],
   reloading:false,reloadTimer:0,
   muzzleFlash:0,recoil:0,recoilY:0,
@@ -248,7 +248,7 @@ const ZOMBIE_TYPES=[
 ];
 let zombies=[];
 
-// Dynamic Level Initialization (Guarantees exactly 7 crates, 1 door, safe spawn)
+// Dynamic Level Initialization
 function initLevelMap(){
   player.cratesCollected = 0;
   player.doorProgress = 0;
@@ -262,23 +262,23 @@ function initLevelMap(){
   for(let y=1; y<MAPH-1; y++){
     for(let x=1; x<MAPW-1; x++){
       if(MAP[y][x] === 0) {
-        // Must be far from spawn
         if(Math.hypot(x - player.x, y - player.y) > 8) {
           emptyCells.push({x,y});
         }
       }
     }
   }
-  // Shuffle empty cells
   emptyCells.sort(() => Math.random() - 0.5);
   
   // Place exactly 7 Crates
   for(let i=0; i<7; i++) {
-    MAP[emptyCells[i].y][emptyCells[i].x] = 3;
+    if(emptyCells[i]) MAP[emptyCells[i].y][emptyCells[i].x] = 3;
   }
   // Place 1 Door
-  doorPos = emptyCells[7];
-  MAP[doorPos.y][doorPos.x] = 2;
+  if(emptyCells[7]){
+    doorPos = emptyCells[7];
+    MAP[doorPos.y][doorPos.x] = 2;
+  }
 
   // Spawn Zombies
   zombies = [];
@@ -318,8 +318,8 @@ function cellSolid(mx,my){
   if(mx<0||mx>=MAPW||my<0||my>=MAPH)return true;
   const c=MAP[my][mx];
   if(c===1)return true;
-  if(c===2 && player.doorProgress < 3)return true; // Door solid until fully answered
-  if(c===3)return true; // Crate always solid
+  if(c===2 && player.doorProgress < 3)return true; 
+  if(c===3)return true; 
   return false;
 }
 
@@ -430,7 +430,7 @@ function handleClick(cx,cy){
 let autoFireTimer=0;
 function doShoot(){
   if(player.reloading)return;
-  if(player.weapon===2 && autoFireTimer>0) return; // Rifle rate of fire
+  if(player.weapon===2 && autoFireTimer>0) return; 
   
   if(player.ammo[player.weapon]<=0){playSound('wrong');return;}
   player.ammo[player.weapon]--;
@@ -445,7 +445,7 @@ function doShoot(){
   shakeX= player.weapon===0?4: player.weapon===1?9 : 5;
   shakeY=shakeX;
   
-  if(player.weapon===2) autoFireTimer = 8; // delay between rifle shots
+  if(player.weapon===2) autoFireTimer = 8; 
 
   const shots=WEAPON_SHOTS[player.weapon];
   const range=WEAPON_RANGE[player.weapon];
@@ -490,8 +490,8 @@ function checkLevelUp(){
   const needed=player.level*200;
   if(player.xp>=needed){
     player.level++;player.xp-=needed;player.hp=Math.min(player.maxHp,player.hp+25);successFlash=40;
-    if(player.level === 3 && player.weaponsUnlocked < 2) { player.weaponsUnlocked = 2; playSound('level_up'); } // Unlock shotgun
-    if(player.level === 6 && player.weaponsUnlocked < 3) { player.weaponsUnlocked = 3; playSound('level_up'); } // Unlock Rifle
+    if(player.level === 3 && player.weaponsUnlocked < 2) { player.weaponsUnlocked = 2; playSound('level_up'); } 
+    if(player.level === 6 && player.weaponsUnlocked < 3) { player.weaponsUnlocked = 3; playSound('level_up'); } 
   }
 }
 
@@ -499,7 +499,7 @@ function checkLevelUp(){
 function triggerQuestion(trigger){
   if(gameState!==GS.GAME)return;
   const pool=QUESTIONS.filter((_,i)=>!usedQuestions.includes(i));
-  if(pool.length===0){usedQuestions=[];} // Fallback safety
+  if(pool.length===0){usedQuestions=[];} 
   const avail=QUESTIONS.filter((_,i)=>!usedQuestions.includes(i));
   const q=avail[Math.floor(Math.random()*avail.length)];
   currentQuestion=q; 
@@ -516,15 +516,13 @@ function answerQuestion(choice){
 
   if(choice===currentQuestion.a){
     playSound('beep');successFlash=70;
-    usedQuestions.push(idx); // Register ONLY on success! So 50 total won't be wasted.
+    usedQuestions.push(idx); 
     
-    // Reward ammo
     for(let w=0; w<player.weaponsUnlocked; w++){
         player.ammo[w]=Math.min(player.maxAmmo[w],player.ammo[w]+Math.ceil(player.maxAmmo[w]*0.5));
     }
     player.xp+=50;score+=100;checkLevelUp();
     
-    // Kill nearest zombie bonus
     let nearest=null,nd=Infinity;
     for(const z of zombies){
       if(z.state!=='dead'&&z.state!=='dying'){
@@ -535,23 +533,22 @@ function answerQuestion(choice){
     if(nearest&&nd<9){nearest.hp=0;nearest.state='dying';nearest.deathTimer=35;player.kills++;spawnBloodParticles(nearest.x,nearest.y,12);}
     
     if(questionTrigger==='crate'){
-       MAP[interactTarget.y][interactTarget.x] = 0; // Remove crate
+       MAP[interactTarget.y][interactTarget.x] = 0; 
        player.cratesCollected++;
     }
     else if(questionTrigger==='door'){
        player.doorProgress++;
        if(player.doorProgress >= 3) {
-          MAP[interactTarget.y][interactTarget.x] = 0; // Open door
+          MAP[interactTarget.y][interactTarget.x] = 0; 
           player.currentLevelIdx++;
           if(player.currentLevelIdx >= LEVELS.length) {
              gameState = GS.WIN; winTimer = 300; return;
           } else {
              gameState=GS.LEVEL_UP; levelUpTimer=150; playSound('level_up');
-             saveGameProgress(); // Auto-save on next level
+             saveGameProgress(); 
              return;
           }
        } else {
-           // Still need more questions for this door
            setTimeout(() => { triggerQuestion('door'); }, 500);
        }
     }
@@ -559,7 +556,6 @@ function answerQuestion(choice){
   }else{
     playSound('wrong');dmgFlash=50;
     player.hp-=15; shakeTimer=22;shakeX=10;shakeY=10;
-    // Wake up nearby zombies
     for(const z of zombies){
       if(z.state==='roam'&&Math.hypot(z.x-player.x,z.y-player.y)<14)z.state='chase';
     }
@@ -680,8 +676,8 @@ function updatePlayer(){
   if(keys['KeyD']||keys['ArrowRight']){player.angle+=player.turnSpeed;}
   if(keys['ArrowLeft']){player.angle-=player.turnSpeed;}
   if(keys['Space']){
-     if(player.weapon === 2) doShoot(); // Auto
-     else if(!keys['_sl']) doShoot(); // Semi
+     if(player.weapon === 2) doShoot(); 
+     else if(!keys['_sl']) doShoot(); 
   }
   keys['_sl']=keys['Space'];
   
@@ -726,7 +722,6 @@ function checkInteract(){
   }
   else if(interactTarget.type === 'door'){
     if(player.cratesCollected < 7) {
-       // Show warning flash
        dmgFlash = 15; playSound('wrong');
     } else {
        triggerQuestion('door');
@@ -780,7 +775,6 @@ function raycast(){
     const bright=clamp(1-dist*fog,0,1)*flickerVal;
     const shade=side===1?0.6:1.0;
     
-    // Default wall
     let r=Math.floor(wb[0]*bright*shade), g=Math.floor(wb[1]*bright*shade), b=Math.floor(wb[2]*bright*shade);
     
     if(cellHit===1){
@@ -788,26 +782,21 @@ function raycast(){
       ctx.fillRect(col*colW,wallTop,colW+1,wallH);
     }
     else if(cellHit===2){
-      // Door Graphic
       ctx.fillStyle=`rgba(255,140,0,${bright*shade})`;
       ctx.fillRect(col*colW,wallTop,colW+1,wallH);
       ctx.fillStyle=`rgba(50,20,0,${bright})`;
       ctx.fillRect(col*colW,wallTop+wallH*0.1,colW+1,wallH*0.8);
-      // Lock detail
       if(col%(Math.floor(cols/10)) === 0) {
         ctx.fillStyle=`rgba(255,255,0,${bright})`;
         ctx.fillRect(col*colW,wallTop+wallH*0.45,colW+2,wallH*0.1);
       }
     }
     else if(cellHit===3){
-      // Crate Graphic (Wooden box with metal straps)
       ctx.fillStyle=`rgba(130,80,30,${bright*shade})`;
-      ctx.fillRect(col*colW,wallTop+wallH*0.3,colW+1,wallH*0.7); // Crates are shorter
-      
-      // Straps
+      ctx.fillRect(col*colW,wallTop+wallH*0.3,colW+1,wallH*0.7); 
       ctx.fillStyle=`rgba(50,50,50,${bright})`;
-      ctx.fillRect(col*colW,wallTop+wallH*0.3,colW+1,wallH*0.08); // Top strap
-      ctx.fillRect(col*colW,wallTop+wallH*0.92,colW+1,wallH*0.08); // Bottom strap
+      ctx.fillRect(col*colW,wallTop+wallH*0.3,colW+1,wallH*0.08); 
+      ctx.fillRect(col*colW,wallTop+wallH*0.92,colW+1,wallH*0.08); 
     }
 
     const sc=Math.floor(col*colW),ec=Math.min(W-1,Math.floor((col+1)*colW));
@@ -855,32 +844,25 @@ function renderSprites(zbuf){
     const legAnim=Math.sin(Date.now()*0.008*(1+z.type))*0.4;
     const armAnim=Math.cos(Date.now()*0.008*(1+z.type))*0.3;
 
-    // Rim Lighting Logic
     const isRimLit = Math.abs(angle) < 0.15 && !isDying;
     
-    // Shadow
     ctx.fillStyle='rgba(0,0,0,0.6)';
     ctx.beginPath();ctx.ellipse(cx2,top+headH+bodyH+legH+5,cw*0.4,size*0.04,0,0,TWO_PI);ctx.fill();
 
-    // LEGS
     const pantCol=flash?'#ffffff':z.pants;
     ctx.fillStyle=pantCol;
     ctx.fillRect(cx2-cw*0.35+legAnim*size*0.05,top+headH+bodyH-2,cw*0.3,legH);
     ctx.fillRect(cx2+cw*0.05-legAnim*size*0.05,top+headH+bodyH-2,cw*0.3,legH);
     
-    // TORSO
     const shirtCol=flash?'#ffaaaa':z.shirt;
     ctx.fillStyle=shirtCol;
     ctx.fillRect(cx2-cw*0.55,top+headH,cw*1.1,bodyH);
-    // Rim Light (Body edge)
     if(isRimLit) {
         ctx.strokeStyle = `rgba(200, 255, 255, ${bright})`; ctx.lineWidth = Math.max(1, size*0.02);
         ctx.strokeRect(cx2-cw*0.55,top+headH,cw*1.1,bodyH);
     }
-    // Wound
     if(!flash){ ctx.fillStyle='rgba(150,0,0,0.8)'; ctx.fillRect(cx2-cw*0.2,top+headH+bodyH*0.3,cw*0.4,bodyH*0.25); }
 
-    // ARMS
     const skinCol=flash?'#ffffff':z.skin;
     if(isAttacking){
       const sw=Math.sin(Date.now()*0.025)*0.5;
@@ -899,16 +881,14 @@ function renderSprites(zbuf){
       ctx.fillRect(cx2+cw*0.55-armAnim*size*0.03,top+headH+size*0.02+bodyH*0.3,cw*0.25,bodyH*0.35);
     }
 
-    // HEAD
     ctx.fillStyle=skinCol;
     ctx.fillRect(cx2-cw*0.35,top,cw*0.7,headH);
     if(isRimLit) {
         ctx.strokeStyle = `rgba(200, 255, 255, ${bright})`; ctx.lineWidth = Math.max(1, size*0.02);
         ctx.strokeRect(cx2-cw*0.35,top,cw*0.7,headH);
     }
-    ctx.fillStyle='#111111'; ctx.fillRect(cx2-cw*0.35,top,cw*0.7,headH*0.2); // Hair
+    ctx.fillStyle='#111111'; ctx.fillRect(cx2-cw*0.35,top,cw*0.7,headH*0.2); 
 
-    // EYES
     const eyeS=Math.max(2,Math.floor(size*0.08));
     const eyeY=top+headH*0.35;
     if(flash){ctx.fillStyle='#ffffff';}else{
@@ -923,7 +903,6 @@ function renderSprites(zbuf){
     ctx.fillRect(cx2-cw*0.2,eyeY,eyeS,eyeS);
     ctx.fillRect(cx2+cw*0.1,eyeY,eyeS,eyeS);
 
-    // HP Bar
     if(dist<8&&z.state!=='dying'){
       const hp=z.hp/z.maxHp;
       const bw2=Math.floor(size*0.85),bx=cx2-bw2*0.5,by2=top-15;
@@ -937,7 +916,7 @@ function renderSprites(zbuf){
 
 // ── MINI-MAP ──────────────────────────────────────────────────
 function renderMiniMap() {
-  const mapSize = Math.floor(W * 0.15); // 15% of screen width
+  const mapSize = Math.floor(W * 0.15); 
   const mx = W - mapSize - 14, my = 14;
   const cellSize = mapSize / MAPW;
   
@@ -952,22 +931,20 @@ function renderMiniMap() {
         ctx.fillStyle = '#004488';
         ctx.fillRect(mx + x*cellSize, my + y*cellSize, cellSize, cellSize);
       } else if (MAP[y][x] === 2) {
-        ctx.fillStyle = '#ff8800'; // Door
+        ctx.fillStyle = '#ff8800'; 
         ctx.fillRect(mx + x*cellSize, my + y*cellSize, cellSize, cellSize);
       } else if (MAP[y][x] === 3) {
-        ctx.fillStyle = '#00ff00'; // Crates
+        ctx.fillStyle = '#00ff00'; 
         ctx.fillRect(mx + x*cellSize, my + y*cellSize, cellSize, cellSize);
       }
     }
   }
 
-  // Player
   const px = mx + player.x * cellSize;
   const py = my + player.y * cellSize;
   ctx.fillStyle = '#ffffff';
   ctx.beginPath(); ctx.arc(px, py, cellSize*1.5, 0, TWO_PI); ctx.fill();
   
-  // View cone
   ctx.strokeStyle = 'rgba(255,255,255,0.4)';
   ctx.beginPath();
   ctx.moveTo(px, py);
@@ -982,7 +959,6 @@ function renderHUD(){
   const fs=Math.max(10,Math.floor(H*0.02));
   const fs2=Math.max(9,Math.floor(H*0.016));
 
-  // Top Left: Level & Progress
   ctx.fillStyle='rgba(0,0,0,0.8)';ctx.fillRect(pad-2,pad-2,260,85);
   ctx.strokeStyle='#00ffff';ctx.lineWidth=2;ctx.strokeRect(pad-2,pad-2,260,85);
   
@@ -999,7 +975,6 @@ function renderHUD(){
 
   renderMiniMap();
 
-  // HP bar
   const hpW=Math.min(210,W*0.3);
   const hpPct=player.hp/player.maxHp;
   ctx.fillStyle='rgba(0,0,0,0.7)';ctx.fillRect(pad-2,H-68-pad,hpW+10,56);
@@ -1010,21 +985,18 @@ function renderHUD(){
   const hpColor=hpPct>0.5?'#00ff00':hpPct>0.25?'#ffff00':'#ff0000';
   ctx.fillStyle=hpColor;ctx.fillRect(pad,H-62-pad,hpW*hpPct,14);
 
-  // XP bar
   const xpPct=player.xp/(player.level*200);
   ctx.fillStyle='#001833';ctx.fillRect(pad,H-42-pad,hpW,8);
   ctx.fillStyle='#00aaff';ctx.fillRect(pad,H-42-pad,hpW*xpPct,8);
   ctx.fillStyle='#aaddff';ctx.font=`${fs2}px Courier New`;
   ctx.fillText(`LV ${player.level}   XP ${player.xp}`,pad,H-47-pad);
 
-  // Revive hearts
   ctx.font=`${Math.floor(H*0.024)}px Courier New`;
   for(let i=0;i<3;i++){
     ctx.fillStyle=i<player.revives?'#ff0055':'#330011';
     ctx.fillText('♥',pad+i*26,H-28-pad);
   }
 
-  // Ammo panel
   ctx.fillStyle='rgba(0,0,0,0.8)';ctx.fillRect(W-148-pad,H-72-pad,146,62);
   ctx.strokeStyle='#ffff00';ctx.lineWidth=2;ctx.strokeRect(W-148-pad,H-72-pad,146,62);
   ctx.fillStyle='#ffcc00';ctx.font=`${fs2}px Courier New`;ctx.textAlign='right';
@@ -1040,7 +1012,6 @@ function renderHUD(){
   }
   ctx.textAlign='left';
 
-  // Crosshair
   const cx=W*0.5,cy=H*0.5+player.bobAmt*H;
   const cs=9+player.recoil*18;
   ctx.strokeStyle='#00ffff';ctx.lineWidth=2;
@@ -1050,7 +1021,6 @@ function renderHUD(){
   ctx.beginPath();ctx.moveTo(cx,cy+5);ctx.lineTo(cx,cy+cs);ctx.stroke();
   ctx.fillStyle='#ff0000';ctx.beginPath();ctx.arc(cx,cy,2.5,0,TWO_PI);ctx.fill();
 
-  // Interact prompt
   if(interactTarget!==null){
     ctx.fillStyle='rgba(0,0,0,0.9)';ctx.fillRect(W*0.5-165,H*0.5+58,330,38);
     
@@ -1072,7 +1042,6 @@ function renderHUD(){
     ctx.textAlign='left';
   }
 
-  // Damage/Success flash
   if(dmgFlash>0){ctx.fillStyle=`rgba(255,0,0,${dmgFlash/60*0.6})`;ctx.fillRect(0,0,W,H);dmgFlash--;}
   if(successFlash>0){ctx.fillStyle=`rgba(0,255,0,${successFlash/70*0.4})`;ctx.fillRect(0,0,W,H);successFlash--;}
 
@@ -1086,29 +1055,21 @@ function renderWeapon(){
   ctx.save();
 
   if(player.weapon===0){
-    // ── PISTOL (Redesigned) ──
     const bx=W*0.5+W*0.08,by=wY;
     const bw=W*0.15,bh=H*0.25;
-    // Shadow
     ctx.fillStyle='rgba(0,0,0,0.6)';ctx.fillRect(bx+6,by+6,bw,bh);
-    // Grip
     const gripGrd=ctx.createLinearGradient(bx,by+bh*0.4,bx+bw*0.4,by+bh);
     gripGrd.addColorStop(0,'#333');gripGrd.addColorStop(1,'#050505');
     ctx.fillStyle=gripGrd;ctx.fillRect(bx,by+bh*0.4,bw*0.4,bh*0.6);
-    // Trigger guard
     ctx.strokeStyle='#111';ctx.lineWidth=Math.max(2,bw*0.05);
     ctx.beginPath();ctx.arc(bx+bw*0.25,by+bh*0.5,bw*0.12,Math.PI*0.2,Math.PI*1.1,false);ctx.stroke();
-    // Barrel/Slide
     const slideGrd=ctx.createLinearGradient(bx+bw*0.1,by,bx+bw*0.1,by+bh*0.3);
     slideGrd.addColorStop(0,'#777');slideGrd.addColorStop(0.5,'#444');slideGrd.addColorStop(1,'#222');
     ctx.fillStyle=slideGrd;ctx.fillRect(bx+bw*0.1,by,bw*0.8,bh*0.3);
-    // Detail lines
     ctx.fillStyle='#111';
     for(let i=0;i<4;i++) ctx.fillRect(bx+bw*0.65+i*bw*0.06, by+bh*0.05, bw*0.02, bh*0.2);
-    // Sights
-    ctx.fillStyle='#00ff00';ctx.fillRect(bx+bw*0.15,by-4,bw*0.05,4); // rear
-    ctx.fillRect(bx+bw*0.8,by-4,bw*0.05,4); // front
-    // Muzzle flash
+    ctx.fillStyle='#00ff00';ctx.fillRect(bx+bw*0.15,by-4,bw*0.05,4); 
+    ctx.fillRect(bx+bw*0.8,by-4,bw*0.05,4); 
     if(player.muzzleFlash>0){
       const mf=player.muzzleFlash/10;ctx.globalAlpha=mf;
       const mg=ctx.createRadialGradient(bx+bw,by+bh*0.15,0,bx+bw,by+bh*0.15,bw*0.6);
@@ -1118,23 +1079,17 @@ function renderWeapon(){
     }
 
   }else if(player.weapon===1){
-    // ── SHOTGUN (Redesigned) ──
     const bx=W*0.5-W*0.1,by=wY;
     const bw=W*0.45,bh=H*0.3;
     ctx.fillStyle='rgba(0,0,0,0.6)';ctx.fillRect(bx+8,by+8,bw,bh);
-    // Stock (Wood)
     const stock=ctx.createLinearGradient(bx,by+bh*0.2,bx+bw*0.25,by+bh);
     stock.addColorStop(0,'#5c2e00');stock.addColorStop(1,'#291400');
     ctx.fillStyle=stock;ctx.fillRect(bx,by+bh*0.2,bw*0.25,bh*0.8);
-    // Receiver
     ctx.fillStyle='#222';ctx.fillRect(bx+bw*0.15,by+bh*0.1,bw*0.4,bh*0.4);
-    // Barrels (Dual)
     ctx.fillStyle='#444';
-    ctx.fillRect(bx+bw*0.2,by,bw*0.8,bh*0.1); // Top barrel
-    ctx.fillRect(bx+bw*0.2,by+bh*0.12,bw*0.8,bh*0.1); // Bottom barrel
-    // Wood grip under barrel
+    ctx.fillRect(bx+bw*0.2,by,bw*0.8,bh*0.1); 
+    ctx.fillRect(bx+bw*0.2,by+bh*0.12,bw*0.8,bh*0.1); 
     ctx.fillStyle=stock;ctx.fillRect(bx+bw*0.2,by+bh*0.24,bw*0.35,bh*0.25);
-    // Trigger
     ctx.strokeStyle='#111';ctx.lineWidth=Math.max(2,bh*0.03);
     ctx.beginPath();ctx.arc(bx+bw*0.28,by+bh*0.4,bw*0.08,Math.PI*0.2,Math.PI*0.8,false);ctx.stroke();
 
@@ -1149,15 +1104,11 @@ function renderWeapon(){
       ctx.globalAlpha=1;
     }
   } else if(player.weapon===2){
-    // ── ASSAULT RIFLE ──
     const bx=W*0.5-W*0.1,by=wY;
     const bw=W*0.5,bh=H*0.35;
     ctx.fillStyle='rgba(0,0,0,0.6)';ctx.fillRect(bx+8,by+8,bw,bh);
-    // Stock (Black Polymer)
     ctx.fillStyle='#1a1a1a';ctx.fillRect(bx,by+bh*0.3,bw*0.2,bh*0.6);
-    // Body
     ctx.fillStyle='#2a2a2a';ctx.fillRect(bx+bw*0.15,by+bh*0.2,bw*0.4,bh*0.4);
-    // Magazine (Curved)
     ctx.fillStyle='#111';
     ctx.beginPath();
     ctx.moveTo(bx+bw*0.35, by+bh*0.6);
@@ -1165,11 +1116,8 @@ function renderWeapon(){
     ctx.lineTo(bx+bw*0.48, by+bh*0.9);
     ctx.lineTo(bx+bw*0.38, by+bh*0.9);
     ctx.fill();
-    // Barrel
     ctx.fillStyle='#333';ctx.fillRect(bx+bw*0.55,by+bh*0.25,bw*0.45,bh*0.08);
-    // Handguard
     ctx.fillStyle='#1a1a1a';ctx.fillRect(bx+bw*0.55,by+bh*0.22,bw*0.25,bh*0.14);
-    // Sight (Red dot)
     ctx.fillStyle='#111';ctx.fillRect(bx+bw*0.3,by+bh*0.1,bw*0.08,bh*0.1);
     ctx.fillStyle='#ff0000';ctx.fillRect(bx+bw*0.36,by+bh*0.12,4,4);
 
@@ -1217,7 +1165,7 @@ function renderLevelUp(){
     if(player.currentLevelIdx >= LEVELS.length) {
       gameState = GS.WIN; winTimer=300;
     } else {
-      initLevelMap(); // Build new map
+      initLevelMap(); 
       gameState = GS.GAME;
     }
   }
@@ -1395,7 +1343,7 @@ function renderGameOver(){
   ctx.fillStyle='#ff0000';ctx.font=`bold ${Math.floor(H*0.085)}px Courier New`;ctx.textAlign='center';
   ctx.fillText('YOU DIED',W*0.5,H*0.28);
   ctx.fillStyle='#ffffff';ctx.font=`${Math.floor(H*0.025)}px Courier New`;
-  ctx.fillText(`Score: ${score}    Kills: ${player.kills}    Stage Passed: ${player.currentLevelIdx}`,W*0.5,H*0.5);
+  ctx.fillText(`Score: ${score}    Kills: ${player.kills}    Stage: ${player.currentLevelIdx + 1}`,W*0.5,H*0.5);
   const bx=W*0.5-125,by=H*0.62,bw2=250,bh=58;
   ctx.fillStyle='rgba(100,0,0,0.8)';ctx.fillRect(bx,by,bw2,bh);
   ctx.strokeStyle='#ff0000';ctx.lineWidth=3;ctx.strokeRect(bx,by,bw2,bh);
@@ -1406,7 +1354,7 @@ function renderGameOver(){
 }
 
 function renderWin(){
-  clearSave(); // Won game, clear save
+  clearSave();
   menuBtns=[];
   ctx.fillStyle='rgba(0,50,20,0.96)';ctx.fillRect(0,0,W,H);
   ctx.fillStyle='#00ff44';ctx.font=`bold ${Math.floor(H*0.068)}px Courier New`;ctx.textAlign='center';
@@ -1451,7 +1399,7 @@ function renderDead(){
   if(deathTimer<=0){
     if(player.revives>0){
       player.revives--; player.hp=100;
-      initLevelMap(); // Restart level geometry
+      initLevelMap(); 
       gameState=GS.GAME;successFlash=60;
     }else{
       clearSave();
@@ -1530,7 +1478,7 @@ function startGame(){
   particles=[];interactTarget=null;
   flickerTimer=10;flickerVal=1;
   
-  initLevelMap(); // Builds the dynamic stage
+  initLevelMap(); 
 
   deathTimer=0;winTimer=0;
   gameState=GS.GAME;
@@ -1549,7 +1497,7 @@ function loop(ts){
     case GS.MENU:renderMenu();break;
     case GS.SETTINGS:renderSettings();break;
     case GS.GAME:
-      updatePlayer();updateZombies();updateParticles();updateShake();checkWin();gameTime++;
+      updatePlayer();updateZombies();updateParticles();updateShake();
       {const zb=raycast();renderSprites(zb);}
       renderFlashlight();
       renderHUD();renderMobileControls();
